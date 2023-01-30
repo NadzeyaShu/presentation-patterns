@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Design Patterns</title>
+
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/black.css">
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css">
+</head>
+<body>
+<div class="reveal">
+    <div class="slides">
+        <section>
+            <div>Design Patterns</div>
+        </section>
+
+        <section>
+            <div>So what are design patterns in programming?</div>
+            <div>It is a common solution to the world architecture problem in software architecture design.</div>
+            <div>The pattern is not a specific code, but broad solutions to a particular problem, which will still need
+                to be adjusted to the needs of your program.
+            </div>
+        </section>
+
+        <section>
+            <ul>There are three main groups of patterns:
+                <li>Generative patterns - they bother with flexible installations of objects without the participation
+                    of special dependencies in the program.
+                </li>
+                <li>Structural patterns - they have different connections between objects.</li>
+                <li>Behavioral patterns - they take care of moderate communication between objects.</li>
+            </ul>
+        </section>
+
+        <section>SINGLETON</section>
+
+        <section>
+            <div>Singleton:</div>
+            <div>Singleton refers to a generative design pattern. it guarantees that there will be a single instance of
+                the class in a single-threaded application that provides a global access point to that instance.
+            </div>
+            <ul>Singleton solves two problems:
+                <li>Ensures that there is only one instance of the class. This is most often useful for accessing some
+                    kind of shared resource, such as a database.
+                </li>
+                <li> Provides a global hotspot.</li>
+            </ul>
+        </section>
+        <section>
+            <ol>Decision:
+                <li>All singleton implementations come down to hiding the constructor and creating a public static
+                    method that will control the lifecycle of the singleton object.
+                </li>
+                <li>If you have access to a singleton class, then you will have access to that static method as well.
+                    From whatever point in the code you call it, it will always return the same object.
+                </li>
+            </ol>
+        </section>
+
+        <section>
+            <ol>When do we use Sington?
+                <li>When the program should have a single instance of some class available to all clients.<br>
+                    The singleton hides from clients all methods of creating a new object, except for a special method.
+                    This method either creates an object or returns an existing object if one has already been created.
+                </li>
+                <li> When you want to have more control over global variables.<br>
+                    The singleton guarantees that no other code will replace the created instance of the class.
+                </li>
+            </ol>
+        </section>
+
+        <section>
+            <div>Structure</div>
+            <img src="img/singl.png" width="100%" height="100%">
+        </section>
+
+        <section>
+            <ol>Consider the implementation of the method:
+                <li>Add a private static field to the class that will contain a single object.</li>
+                <li>Declare a static creation method that will be used to get the singleton.</li>
+                <li>Add "lazy initialization" (creating the object the first time the method is called) to the
+                    singleton's creating method.
+                </li>
+                <li>Make the class constructor private.
+                </li>
+                <li>In client code, replace calls to the singleton constructor with calls to its creation method</li>
+            </ol>
+        </section>
+
+        <section>DECORATOR</section>
+
+        <section>
+            <div>Decorator is a structural pattern<br>
+                It allows you to wrap objects an infinite number of times due to the fact that both wrappers and the
+                actual wrapped objects have a common interface.
+            </div>
+        </section>
+
+        <section>
+            <ul>When do we need to apply this method?
+                <li>When you need to add responsibilities to objects on the fly, without being seen by the code that
+                    uses
+                    them.
+                </li>
+                <li>When it is impossible to expand the responsibilities of an object using inheritance.</li>
+            </ul>
+        </section>
+
+        <section>
+            <div>Structure</div>
+            <img src="img/decorator.png" width="100%" height="100%">
+        </section>
+
+        <section>
+            <ul>Implementation steps:
+                <li>Create a bean interface that describes common methods for both the main bean and its addons.</li>
+                <li>Create a specific bean class and put the main business logic in it.</li>
+                <li>Create a base decorator class. It must have a field to store a reference to the nested component
+                    object. All methods of the base decorator must delegate to the nested object.
+                </li>
+                <li>Both the concrete component and the base decorator must follow the same component interface.</li>
+            </ul>
+        </section>
+
+        <section>
+            <li>Now create concrete decorator classes by deriving from the base decorator. A particular decorator
+                must perform its additional function and then (or before) invoke the same operation on the wrapped
+                object.
+            </li>
+            <li>The client takes responsibility for the configuration and order of wrapping objects.</li>
+        </section>
+
+        <section>OBSERVER</section>
+
+        <section>
+            <div>Observer is a behavioral design pattern<br>
+                it creates a subscription mechanism that allows one object to monitor and respond to events occurring in
+                other objects.
+            </div>
+        </section>
+
+        <section>
+            <ul>When can we apply it?
+                <li>When, after changing the state of one object, something needs to be done in others, but you do not
+                    know
+                    in advance which objects should react.
+                </li>
+                <li>When some objects must observe others, but only in certain cases.
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <div>Structure</div>
+            <img src="img/observer.png" width="100%" height="100%">
+        </section>
+
+        <section>
+            <ol>Implementation steps:
+                <li>Break your functionality into two parts: an independent core and optional dependent parts. The
+                    independent core will become the publisher. Dependent parts will become subscribers.
+                </li>
+                <li>Create a subscriber interface. Usually it is enough to define a single notification method in it.
+                </li>
+                <li>Create a publisher interface and describe subscription management operations in it. Keep in mind
+                    that
+                    the publisher should only work with the general interface of the subscribers.
+                </li>
+
+            </ol>
+        </section>
+
+        <section>
+            <li>You need to decide where to put the subscription maintenance code, as it is usually the same for all
+                types of publishers. The most obvious way is to move this code into an intermediate abstract class
+                from
+                which all publishers will inherit.<br>
+                But if you are integrating the pattern into existing classes, it can be difficult to create a new
+                base
+                class. In this case, you can put the subscription logic in a helper object and delegate work from
+                publishers to it.
+            </li>
+            <li>Create specific publisher classes. Implement them so that after each state change they send
+                notifications to all their subscribers.
+            </li>
+
+        </section>
+
+        <section>
+            <li>Implement the notification method in specific subscribers. Don't forget to provide parameters
+                through
+                which the publisher could send some data related to the event that happened.
+            </li>
+            <li>The client must create the required number of subscriber objects and sign them with publishers.
+            </li>
+        </section>
+
+        <section>
+            <div>Thanks for watching!</div>
+        </section>
+
+    </div>
+</div>
+
+<script src="dist/reveal.js"></script>
+<script src="plugin/notes/notes.js"></script>
+<script src="plugin/markdown/markdown.js"></script>
+<script src="plugin/highlight/highlight.js"></script>
+<script>
+    // More info about initialization & config:
+    // - https://revealjs.com/initialization/
+    // - https://revealjs.com/config/
+    Reveal.initialize({
+        hash: true,
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes]
+    });
+</script>
+</body>
+</html>
